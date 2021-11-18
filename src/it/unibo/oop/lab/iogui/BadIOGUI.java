@@ -10,6 +10,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 
 import javax.swing.BoxLayout;
@@ -79,10 +81,13 @@ public class BadIOGUI {
 
             @Override
             public void actionPerformed(final ActionEvent e) {
-                try (final BufferedReader br = new BufferedReader(new FileReader(PATH))) {
-                    System.out.println(br.readLine());
-                } catch (FileNotFoundException e1) {
-                    e1.printStackTrace();
+                /*
+                 * try (final BufferedReader br = new BufferedReader(new FileReader(PATH))) {
+                 * System.out.println(br.readLine()); } catch (FileNotFoundException e1) {
+                 * e1.printStackTrace(); } catch (IOException e1) { e1.printStackTrace(); }
+                 */
+                try {
+                    System.out.println(Files.readAllLines(Path.of(PATH)));
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
