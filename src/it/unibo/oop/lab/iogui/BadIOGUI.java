@@ -27,7 +27,7 @@ public class BadIOGUI {
     private static final String TITLE = "A very simple GUI application";
     private static final String PATH = System.getProperty("user.home") + System.getProperty("file.separator")
             + BadIOGUI.class.getSimpleName() + ".txt";
-    private static final int PROPORTION = 5;
+    //private static final int PROPORTION = 5;
     private final Random rng = new Random();
     private final JFrame frame = new JFrame(TITLE);
 
@@ -42,7 +42,10 @@ public class BadIOGUI {
         final JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         canvas.add(panel, BorderLayout.CENTER);
-        
+
+        final JButton read = new JButton("read on file");
+        panel.add(read, BorderLayout.CENTER);
+
         final JButton write = new JButton("Write on file");
         panel.add(write, BorderLayout.CENTER);
         frame.setContentPane(canvas);
@@ -68,8 +71,16 @@ public class BadIOGUI {
                 }
             }
         });
-    }
 
+        read.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent e) {
+                System.out.println("String");
+            }
+        });
+    }
+    
     private void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
@@ -84,7 +95,7 @@ public class BadIOGUI {
          * int sw = (int) screen.getWidth(); final int sh = (int) screen.getHeight();
          * frame.setSize(sw / PROPORTION, sh / PROPORTION);
          */
-        frame.pack(); 
+        frame.pack();
         /*
          * Instead of appearing at (0,0), upper left corner of the screen, this flag
          * makes the OS window manager take care of the default positioning on screen.
