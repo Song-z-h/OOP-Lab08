@@ -5,7 +5,10 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Random;
 
@@ -27,7 +30,7 @@ public class BadIOGUI {
     private static final String TITLE = "A very simple GUI application";
     private static final String PATH = System.getProperty("user.home") + System.getProperty("file.separator")
             + BadIOGUI.class.getSimpleName() + ".txt";
-    //private static final int PROPORTION = 5;
+    // private static final int PROPORTION = 5;
     private final Random rng = new Random();
     private final JFrame frame = new JFrame(TITLE);
 
@@ -76,11 +79,17 @@ public class BadIOGUI {
 
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println("String");
+                try (final BufferedReader br = new BufferedReader(new FileReader(PATH))) {
+                    System.out.println(br.readLine());
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }
-    
+
     private void display() {
         /*
          * Make the frame one fifth the resolution of the screen. This very method is
