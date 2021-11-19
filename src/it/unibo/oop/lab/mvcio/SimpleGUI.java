@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Area;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -42,6 +43,10 @@ public final class SimpleGUI {
      * Use "ex02.png" (in the res directory) to verify the expected aspect.
      */
     public void display() {
+        frame.setVisible(true);
+    }
+
+    private void mainContents() {
         final JPanel canvas = new JPanel(new BorderLayout());
         final JTextArea textarea = new JTextArea();
         textarea.setLayout(new BoxLayout(textarea, BoxLayout.Y_AXIS));
@@ -51,17 +56,21 @@ public final class SimpleGUI {
 
         canvas.add(textarea, BorderLayout.CENTER);
         canvas.add(save, BorderLayout.SOUTH);
-        frame.add(canvas);
+        frame.setContentPane(canvas);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
 
         save.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(final ActionEvent e) {
                 final Observer ob = new Controller();
-                ob.writeFiles(textarea.getText());
+                try {
+                    ob.writeFiles(textarea.getText());
+                    System.out.println("Writing to files.....");
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -91,6 +100,7 @@ public final class SimpleGUI {
          * Results may vary, but it is generally the best choice.
          */
         frame.setLocationByPlatform(true);
+        mainContents();
     }
 
     public static void main(final String[] args) {

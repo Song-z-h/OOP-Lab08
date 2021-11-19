@@ -2,6 +2,7 @@ package it.unibo.oop.lab.mvcio;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintStream;
 
 public class Controller implements Observer {
@@ -29,11 +30,12 @@ public class Controller implements Observer {
      * to a software that runs correctly on every platform.
      */
     private File file;
-    private static final String PATH = System.getProperty("user.home") + System.getProperty("file.separator");
+    private static final String HOME = System.getProperty("user.home");
+    private static final String SEPARATOR = System.getProperty("file.separator");
+    private static final String DEFAULTNAME = "output.txt";
 
     public Controller() {
-        file = new File(PATH + "output.txt");
-
+        file = new File(HOME + SEPARATOR + DEFAULTNAME);
     }
 
     /**
@@ -49,7 +51,12 @@ public class Controller implements Observer {
      */
     @Override
     public void setCurrentFile(final String filename) {
-        file = new File(PATH + filename);
+        final File folder = file.getParentFile();
+        if (folder.exists()) {
+            file = new File(HOME + SEPARATOR + filename);
+        } else {
+            throw new IllegalArgumentException("The folder doesn't exist");
+        }
     }
 
     /**
@@ -64,13 +71,9 @@ public class Controller implements Observer {
      * {@inheritDoc}
      */
     @Override
-    public void writeFiles(final String content) {
-
-        try (PrintStream ps = new PrintStream(file)) {
-            ps.println(content);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void writeFiles(final String content) throws IOException {
+        final PrintStream ps = new PrintStream(file);
+        ps.println(content);
     }
 
 }

@@ -2,6 +2,7 @@ package it.unibo.oop.lab.mvcio;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public interface Observer {
     /**
@@ -31,8 +32,9 @@ public interface Observer {
      * 
      * @param content
      *                    the thing you want to write
+     * @throws IOException 
      * 
      */
-    void writeFiles(String content);
+    void writeFiles(String content) throws IOException;
 
 }
