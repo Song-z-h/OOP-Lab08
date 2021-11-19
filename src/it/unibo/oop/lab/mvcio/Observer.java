@@ -31,8 +31,8 @@ public interface Observer {
      * 
      * @param content
      *                    the thing you want to write
-     * @throws FileNotFoundException 
+     * 
      */
-    void writeFiles(String content) throws FileNotFoundException;
+    void writeFiles(String content);
 
 }
