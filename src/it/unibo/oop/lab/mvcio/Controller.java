@@ -1,9 +1,10 @@
 package it.unibo.oop.lab.mvcio;
 
-/**
- * 
- */
-public class Controller {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
+public class Controller implements Observer {
 
     /*
      * This class must implement a simple controller responsible of I/O access. It
@@ -27,5 +28,49 @@ public class Controller {
      * System.getProperty("file.separator"). The combined use of those methods leads
      * to a software that runs correctly on every platform.
      */
+    private File file;
+    private static final String PATH = System.getProperty("user.home") + System.getProperty("file.separator");
+
+    public Controller() {
+        file = new File(PATH + "output.txt");
+
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public File getCurrentFile() {
+        return file;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setCurrentFile(final String filename) {
+        file = new File(PATH + filename);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPath() {
+        return file.getAbsolutePath();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void writeFiles(final String content) {
+
+        try (PrintStream ps = new PrintStream(file)) {
+            ps.println(content);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
