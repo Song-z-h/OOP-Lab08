@@ -32,7 +32,7 @@ public class Controller implements Observer {
     private File file;
     private static final String HOME = System.getProperty("user.home");
     private static final String SEPARATOR = System.getProperty("file.separator");
-    private static final String DEFAULTNAME = "output.txt";
+    private static final String DEFAULTNAME = "output.txt.deleteme";
 
     public Controller() {
         file = new File(HOME + SEPARATOR + DEFAULTNAME);
@@ -53,7 +53,7 @@ public class Controller implements Observer {
     public void setCurrentFile(final String filename) {
         final File folder = file.getParentFile();
         if (folder.exists()) {
-            file = new File(HOME + SEPARATOR + filename);
+            file = new File(filename);
         } else {
             throw new IllegalArgumentException("The folder doesn't exist");
         }
