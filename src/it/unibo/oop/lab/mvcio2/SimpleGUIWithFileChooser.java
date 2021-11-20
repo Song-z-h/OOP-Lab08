@@ -51,49 +51,40 @@ public final class SimpleGUIWithFileChooser {
      * things separated.
      */
     private final JFrame frame = new JFrame("My second java graphical interface");
-    private final Observer ob = new Controller();
-    private final JFileChooser fileChooser = new JFileChooser();
 
-    public SimpleGUIWithFileChooser() {
-
+    public SimpleGUIWithFileChooser(final Observer ob) {
+        // frame configuration
         final Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         final int sw = (int) screen.getWidth();
         final int sh = (int) screen.getHeight();
         frame.setSize(sw / 3, sh / 2);
 
         frame.setLocationByPlatform(true);
-        mainContents();
+        mainContents(ob);
     }
 
-    private void mainContents() {
+    private void mainContents(final Observer ob) {
+
+        // main contents creation and configuration
         final JPanel canvas = new JPanel(new BorderLayout());
         final JTextArea textarea = new JTextArea();
+        final JButton save = new JButton("save");
         textarea.setLayout(new BoxLayout(textarea, BoxLayout.Y_AXIS));
         textarea.setLineWrap(true);
-        final JButton save = new JButton("save");
         save.setLayout(new BoxLayout(save, BoxLayout.Y_AXIS));
 
         final JTextField textfield = new JTextField(ob.getPath());
         final JButton browse = new JButton("Browse");
         final JPanel panel = new JPanel(new BorderLayout());
-
         textfield.setLayout(new BoxLayout(textfield, BoxLayout.LINE_AXIS));
         textfield.setEditable(false);
         browse.setLayout(new BoxLayout(browse, BoxLayout.LINE_AXIS));
-
-        panel.add(textfield, BorderLayout.WEST);
-        panel.add(browse, BorderLayout.EAST);
-        canvas.add(panel, BorderLayout.NORTH);
-        canvas.add(textarea, BorderLayout.CENTER);
-        canvas.add(save, BorderLayout.SOUTH);
-        frame.setContentPane(canvas);
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         browse.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(final ActionEvent e) {
+                final JFileChooser fileChooser = new JFileChooser();
                 final int res = fileChooser.showSaveDialog(panel);
                 switch (res) {
                 case JFileChooser.APPROVE_OPTION:
@@ -106,15 +97,14 @@ public final class SimpleGUIWithFileChooser {
                     break;
                 default:
                     JOptionPane.showMessageDialog(fileChooser, "Something went wrong");
+                    break;
                 }
             }
         });
-
         save.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(final ActionEvent e) {
-
                 try {
                     ob.writeFiles(textarea.getText());
                     System.out.println("Writing to files.....");
@@ -124,6 +114,14 @@ public final class SimpleGUIWithFileChooser {
             }
         });
 
+        panel.add(textfield, BorderLayout.WEST);
+        panel.add(browse, BorderLayout.EAST);
+        canvas.add(panel, BorderLayout.NORTH);
+        canvas.add(textarea, BorderLayout.CENTER);
+        canvas.add(save, BorderLayout.SOUTH);
+        frame.setContentPane(canvas);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public void display() {
@@ -131,7 +129,7 @@ public final class SimpleGUIWithFileChooser {
     }
 
     public static void main(final String[] args) {
-        new SimpleGUIWithFileChooser().display();
+        new SimpleGUIWithFileChooser(new Controller()).display();
     }
 
 }
