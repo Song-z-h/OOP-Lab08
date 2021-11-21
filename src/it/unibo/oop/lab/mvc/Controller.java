@@ -1,6 +1,5 @@
 package it.unibo.oop.lab.mvc;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -33,9 +32,10 @@ public interface Controller {
      * tell me what you would like to print next.
      * @throws IOException 
      * 
-     * 
+     * @param text
+     *              the next String to be printed
      */
-    void setNextString() throws IOException;
+    void setNextString(String text);
 
     /**
      * get the next String to print.

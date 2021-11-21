@@ -1,9 +1,8 @@
 package it.unibo.oop.lab.mvc;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Objects;
 
 public class ControllerImpl implements Controller {
 
@@ -15,14 +14,8 @@ public class ControllerImpl implements Controller {
      * @throws IOException
      */
     @Override
-    public void setNextString() throws IOException {
-        try (Scanner sc = new Scanner(System.in)) {
-            final String text = sc.nextLine();
-            if (text != null) {
-                texts.add(text);
-            }
-        }
-
+    public void setNextString(final String text) {
+        texts.add(Objects.requireNonNull(text, "this should not be null"));
     }
 
     /**
