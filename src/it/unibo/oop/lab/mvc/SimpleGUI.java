@@ -57,6 +57,7 @@ public final class SimpleGUI {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         textarea.setBackground(Color.lightGray);
         textarea.setLineWrap(true);
+        chatbox.setEditable(false);
 
         // actionListeners
         print.addActionListener(new ActionListener() {
