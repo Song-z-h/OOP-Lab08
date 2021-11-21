@@ -1,5 +1,8 @@
 package it.unibo.oop.lab.advanced;
 
+import java.util.Scanner;
+import java.util.StringTokenizer;
+
 /**
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
@@ -14,6 +17,27 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
      * 
      */
     public DrawNumberApp() {
+
+        final Configuration.Builder configurationbuilder = new Configuration.Builder();
+        try (Scanner sc = new Scanner(ClassLoader.getSystemResourceAsStream("config.yml"))) {
+            while (sc.hasNextLine()) {
+                final String[] lines = sc.nextLine().trim().split(":");
+                final Scanner num = new Scanner(lines[1]);
+                if (lines[0].contains("min")) {
+                    configurationbuilder.setMin(num.nextInt());
+                } else if (lines[0].contains("max")) {
+                    configurationbuilder.setMax(num.nextInt());
+                } else if (lines[0].contains("attemp")) {
+                    configurationbuilder.setAttempts(num.nextInt());
+                } else {
+                    System.out.println("couldn't get configuration files");
+                }
+            }
+
+        }
+        final Configuration config = configurationbuilder.build();
+        System.out.println(config);
+
         this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
@@ -44,10 +68,10 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
 
     /**
      * @param args
-     *            ignored
+     *                 ignored
      */
     public static void main(final String... args) {
         new DrawNumberApp();
-    }
 
+    }
 }
