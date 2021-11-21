@@ -1,8 +1,12 @@
 package it.unibo.oop.lab.mvc;
 
+import java.io.IOException;
+import java.util.List;
+
 /**
  * A controller that prints strings and has memory of the strings it printed.
  */
+
 public interface Controller {
 
     /*
@@ -24,5 +28,32 @@ public interface Controller {
      * an IllegalStateException should be thrown
      * 
      */
+
+    /**
+     * tell me what you would like to print next.
+     * @throws IOException 
+     * 
+     * 
+     */
+    void setNextString() throws IOException;
+
+    /**
+     * get the next String to print.
+     * 
+     * @return the next String
+     */
+    String getNextString();
+
+    /**
+     * show history.
+     * 
+     * @return a list of all Strings printed before
+     */
+    List<String> getHistory();
+
+    /**
+     * print the next string.
+     */
+    void printString();
 
 }
