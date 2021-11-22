@@ -7,9 +7,6 @@ import java.util.StringTokenizer;
  */
 public final class DrawNumberApp implements DrawNumberViewObserver {
 
-    private static final int MIN = 0;
-    private static final int MAX = 100;
-    private static final int ATTEMPTS = 10;
     private final DrawNumber model;
     private final DrawNumberView view;
 
@@ -22,23 +19,24 @@ public final class DrawNumberApp implements DrawNumberViewObserver {
         try (Scanner sc = new Scanner(ClassLoader.getSystemResourceAsStream("config.yml"))) {
             while (sc.hasNextLine()) {
                 final String[] lines = sc.nextLine().trim().split(":");
-                final Scanner num = new Scanner(lines[1]);
-                if (lines[0].contains("min")) {
-                    configurationbuilder.setMin(num.nextInt());
-                } else if (lines[0].contains("max")) {
-                    configurationbuilder.setMax(num.nextInt());
-                } else if (lines[0].contains("attemp")) {
-                    configurationbuilder.setAttempts(num.nextInt());
-                } else {
-                    System.out.println("couldn't get configuration files");
+                try (Scanner num = new Scanner(lines[1])) {
+                    if (lines[0].contains("min")) {
+                        configurationbuilder.setMin(num.nextInt());
+                    } else if (lines[0].contains("max")) {
+                        configurationbuilder.setMax(num.nextInt());
+                    } else if (lines[0].contains("attemp")) {
+                        configurationbuilder.setAttempts(num.nextInt());
+                    } else {
+                        System.out.println("couldn't get configuration files");
+                    }
                 }
+
             }
 
         }
         final Configuration config = configurationbuilder.build();
-        System.out.println(config);
 
-        this.model = new DrawNumberImpl(MIN, MAX, ATTEMPTS);
+        this.model = new DrawNumberImpl(config.getMin(), config.getMax(), config.getAttempts());
         this.view = new DrawNumberViewImpl();
         this.view.setObserver(this);
         this.view.start();
